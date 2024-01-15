@@ -1,0 +1,83 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="city-full-weather">
+    <div class="city-full-name">
+        <div class="full-city-names">
+            <h1>{{city}} </h1>
+            <span style="margin-left: 20px; margin-top: 10px;">{{time_now}}</span>
+        </div>
+        <form action="" method=POST>
+            {% csrf_token %}
+            <div class="inputs">
+                <input type="text" placeholder="compare with a city" name="comparison-input" id="compare-input">
+                <!-- <a href="" data-firstcity="{{city}}" id="comparison-link">compare</a> -->
+                <button type="submit"  class="comparison-button"> compare</button>
+            </div>
+        </form>
+        
+    </div>
+    <div class="city-full-tempratures">
+        <div class="temp-desc">
+            <img src="http://openweathermap.org/img/w/{{weather.icon}}.png" alt="" >
+            <span>{{weather.description}}</span>
+        </div>
+        <div class="current-temp">
+            <h1>{{weather.temperature}} °C</h1>
+            <h2>Feels like : {{weather.feels_like}} °C</h2>
+        </div>
+        <div class="max-min-temp">
+            <h2>Max tempurature : {{weather.max_temp}} °C</h2>
+            <h2>Min tempurature : {{weather.min_temp}} °C</h2>
+        </div>
+    </div>
+    <div class="sun-set-rise">
+        <span> sunrise <i class="fa-solid fa-sun" style="color: rgb(238, 135, 24);"></i> : {{weather.sunrise}} </span>
+        <span> sunset <i class="fa-solid fa-moon" style="color: rgb(11, 2, 80);"></i> : {{weather.sunset}} </span>
+    </div>
+    <div class="city-full-details">
+        <div class="detail">
+            <span><i class="fa-solid fa-wind"></i> </span>
+            <span>{{weather.wind_speed}} M/S</span>
+        </div>
+        <div class="detail">
+            <span><i class="fa-solid fa-droplet"></i> </span>
+            <span>{{weather.humidity}} %</span>
+        </div>
+        <div class="detail">
+            <span><i class="fa-solid fa-weight-scale"></i> </span>
+            <span> {{weather.pressure}} hPa</span>
+        </div>
+    </div>
+    
+    
+    
+</div>
+<script type="text/javascript">
+    var comparison = document.getElementById('comparison-link')
+    comparison.addEventListener('click',function(e){
+        e.preventDefault()
+        var first_city=this.dataset.firstcity
+        var second_city = document.getElementById('compare-input').value
+        console.log(first_city,',,,,',second_city)
+        url='/compare-with/'
+        fetch(url,{
+            method : 'POST',
+            headers :{
+                'Content-type':'application/json',
+                'X-CSRFToken':csrftoken
+            },
+            body : JSON.stringify({
+                'first_city':first_city,'second_city':second_city
+            })
+        })
+        .then ((response => {
+            return response.json()
+        }))
+        .then ((data => {
+            console.log('data : ',data)
+        }))
+    })
+</script>
+{% endblock content %}

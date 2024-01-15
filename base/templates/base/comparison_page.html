@@ -1,0 +1,47 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+{% if not one_comparison %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="city1" placeholder="enter city 1" required>
+    <input type="text" name="city2" placeholder="enter city 2" required>
+    <button type="submit"> Compare</button>
+</form>
+{% endif %}
+<div class="cities">
+    {% for citty in cities %}
+    {% if citty.weather %}
+    <div class="city">
+        <a href="{% url 'city-page' citty.city.id  %}">
+            <div class="city-name">
+                <span>{{citty.city}}</span>
+                <span>{{time_now}}</span>
+            </div>
+            <div class="weather">
+                <h2>
+                    {{citty.weather.temperature}} °C
+                </h2>
+                <span>{{citty.weather.description}}</span>
+            </div>
+            <div class="city-details">
+                <div class="weather-details">
+                    <span><i class="fa-solid fa-wind"></i> {{citty.weather.wind_speed}} M/S</span>
+                    <span><i class="fa-solid fa-droplet"></i> {{citty.weather.humidity}} %</span>
+                </div>
+                <img src="http://openweathermap.org/img/w/{{citty.weather.icon}}.png" alt="{{weather.description}}">
+            </div>
+            
+        </a>
+    </div>
+   {% endif %}
+   {% endfor %}
+</div>
+{% if text %}
+<div class="comparison">
+    <h3>{{comparison.cold}} °C colder in {{comparison.colder}}</h3>
+    <h3>{{comparison.humid}} is {{comparison.more_humid}} more humid</h3>
+    <h3>the winds are {{comparison.fast}} faster in {{comparison.faster}}</h3>
+</div>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,8 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<h1>{{profile}}</h1>
+<img src="{{profile.profileimg}}" alt="" style="width: 80px;height: 80px;border-radius: 50%;">
+<h2>{{profile.username}}</h2>
+<a href="{% url 'update-profile' profile.id %}">Update Profile</a>
+{% endblock content %}

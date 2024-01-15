@@ -1,0 +1,55 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<dev class="home-container" style="padding: 3px 10px 3px 10px;">
+    <div class="home-actions">
+        <a href="{% url 'add-city-page' %}">
+            <span>Add city</span>
+            <i class="fa-solid fa-plus"></i>
+        </a>
+        <form class="header__search" method="GET" action="{% url 'home' %}" >
+            <input type="text" placeholder="search for a city" name="q">
+        </form>
+        <a href="{% url 'comparison-page' %}">
+            <span>Compare</span>
+            <i class="fa-regular fa-sun"></i>
+        </a>
+    </div>
+    <div class="cities-container">
+        <div class="cities-info">
+            <h3>Followed cities : {{profile.cities.count}}</h3>
+            <h3>coldest : {{city_info.coldest}}</h3>
+            <h3>hottest : {{city_info.hottest}}</h3>
+            <h3>most humid : {{city_info.most_humid}}</h3>
+        </div>
+        <div class="cities">
+            {% for citty in cities %}
+            {% if citty.weather %}
+            <div class="city">
+                <a href="{% url 'city-page' citty.city.id  %}">
+                    <div class="city-name">
+                        <span>{{citty.city}}</span>
+                        <span>{{time_now}}</span>
+                    </div>
+                    <div class="weather">
+                        <h2>
+                            {{citty.weather.temperature}} °C
+                        </h2>
+                        <span>{{citty.weather.description}}</span>
+                    </div>
+                    <div class="city-details">
+                        <div class="weather-details">
+                            <span><i class="fa-solid fa-wind"></i> {{citty.weather.wind_speed}} M/S</span>
+                            <span><i class="fa-solid fa-droplet"></i> {{citty.weather.humidity}} %</span>
+                        </div>
+                        <img src="http://openweathermap.org/img/w/{{citty.weather.icon}}.png" alt="{{weather.description}}">
+                    </div>
+                    
+                </a>
+            </div>
+           {% endif %}
+           {% endfor %}
+        </div>
+    </div>
+</dev>
+{% endblock content %}

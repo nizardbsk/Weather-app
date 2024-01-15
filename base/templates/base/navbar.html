@@ -1,0 +1,32 @@
+{% load static %}
+<header>
+    <div class="head-container">
+        <div class="header-logo">
+            <h1>WE-ATHER</h1>
+        </div>
+        <div class="right-header">
+            <a href="{% url 'home' %}" class="head-link" id="active">
+                Home
+            </a>
+            <a href="{% url 'profile-page' profile.id %}" class="head-link">
+               Profile
+            </a>
+            <!-- <a href="#" class="head-link">
+                skills
+            </a>
+            <a href="#" class="head-link">
+                education
+            </a>
+            <a href="#" class="head-link">
+                work
+            </a>
+            <a href="#" class="head-link">
+                experience
+            </a>
+            <a href="#" class="head-link">
+                contact
+            </a> -->
+        </div>
+    </div>
+   
+</header>
